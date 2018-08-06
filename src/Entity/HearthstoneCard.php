@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\CardsRepository")
  */
-class Cards
+class HearthstoneCard
 {
     /**
      * @ORM\Id()
@@ -30,6 +30,18 @@ class Cards
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="HearthstoneClass", inversedBy="hearthstoneCards")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $hearthstoneClass;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="HearthstoneSet", inversedBy="hearthstoneCards")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $hearthstoneSet;
 
     public function getId()
     {
@@ -68,6 +80,30 @@ class Cards
     public function setDescription(?string $description): self
     {
         $this->description = $description;
+
+        return $this;
+    }
+
+    public function getHearthstoneClass(): ?HearthstoneClass
+    {
+        return $this->category;
+    }
+
+    public function setHearthstoneClass(?HearthstoneClass $hearthstoneClass): self
+    {
+        $this->hearthstoneClass = $category;
+
+        return $this;
+    }
+
+    public function getHearthstoneSet(): ?HearthstoneSet
+    {
+        return $this->hearthstoneExtension;
+    }
+
+    public function setHearthstoneSet(?HearthstoneSet $hearthstoneExtension): self
+    {
+        $this->hearthstoneExtension = $hearthstoneExtension;
 
         return $this;
     }
