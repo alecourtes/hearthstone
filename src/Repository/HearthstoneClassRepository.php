@@ -19,15 +19,16 @@ class HearthstoneClassRepository extends ServiceEntityRepository
         parent::__construct($registry, HearthstoneClass::class);
     }
 
-    public function addHearthstoneClass($className)
+    public function addHearthstoneClass($datas)
     {
-        if(!empty($className))
+        if(!empty($datas))
         {
-            $classExist = $this->findOneBy(['name' => $className]);
+            $classExist = $this->findOneBy(['name' => $datas['name']]);
             if(!$classExist)
             {
                 $class = new HearthstoneClass();
-                $class->setName($className);
+                $class->setName($datas['name']);
+                $class->setCode($datas['code']);
                 $entityManager = $this->getEntityManager();
                 $entityManager->persist($class);
                 $entityManager->flush();

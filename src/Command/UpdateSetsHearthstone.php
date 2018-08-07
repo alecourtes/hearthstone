@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\HearthstoneSet;
 use App\Service\ApiHearthstone;
+use App\Utils\Stringifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,11 +14,13 @@ class UpdateSetsHearthstone extends Command
 {
     private $apiHearthstone;
     private $entityManager;
+    private $stringifier;
 
-    public function __construct(ApiHearthstone $apiHearthstone, EntityManagerInterface $entityManager)
+    public function __construct(ApiHearthstone $apiHearthstone, EntityManagerInterface $entityManager, Stringifier $stringifier)
     {
         $this->apiHearthstone = $apiHearthstone;
         $this->entityManager = $entityManager;
+        $this->stringifier = $stringifier;
         parent::__construct();
     }
 
@@ -37,13 +40,23 @@ class UpdateSetsHearthstone extends Command
             '',
         ]);
 
-        $sets = $this->apiHearthstone->getInfos('sets');
-        if(!empty($sets))
+        $setsFR = $this->apiHearthstone->getInfos('sets');
+        $setsEN = $this->apiHearthstone->getInfos('sets', 'enEN');
+
+        if(!empty($setsFR))
         {
             $hearthstoneSet = $this->entityManager->getRepository(HearthstoneSet::class);
-            foreach($sets as $setName)
+            foreach($setsFR as $k => $setNameFR)
             {
-                ($hearthstoneSet->addHearthstoneSet($setName))?$output->writeln("set " . $setName . " added"):$output->writeln("set " . $setName. " already exist");
+                if(empty($setNameFR))
+                {
+                    continue;
+                }
+                $datas = [];
+                $datas['name'] = $setNameFR;
+                $datas['code'] = $this->stringifier->slug($setsEN[$k]);
+
+                ($hearthstoneSet->addHearthstoneSet($datas))?$output->writeln("set " . $datas['name'] . " added"):$output->writeln("set " . $datas['name']. " already exist");
             }
         }
         else{

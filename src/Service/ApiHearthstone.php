@@ -33,20 +33,7 @@ class ApiHearthstone
         try{
             Unirest\Request::jsonOpts(JSON_OBJECT_AS_ARRAY);
             $response = Unirest\Request::get($apiUrl, $headers, $query);
-            $extensions = $response->body;
-            echo "<pre>";
-            \Doctrine\Common\Util\Debug::dump($extensions);
-            die;
-            foreach($extensions as $extensionName => $cards)
-            {
-                if(!in_array($extensionName, self::ignoredExtensions))
-                {
-                    echo $extensionName . "<br/>";
-                }
-
-            }
-            die;
-            $cards = $body['The Boomsday Project'];
+            $cards = $response->body;
         }
         catch(\Exception $e)
         {
@@ -56,7 +43,7 @@ class ApiHearthstone
         return $cards;
     }
 
-    public function getInfos(String $type): array
+    public function getInfos(String $type, String $locale = 'frFR'): array
     {
         $infos = [];
         $apiUrl = $this->params->get('hearthstone.api.url.infos');
@@ -68,7 +55,7 @@ class ApiHearthstone
             'X-Mashape-Key' => $apiToken
         ];
         $query = [
-            'locale' => 'frFR'
+            'locale' => $locale
         ];
         try{
             Unirest\Request::jsonOpts(JSON_OBJECT_AS_ARRAY);

@@ -4,6 +4,7 @@ namespace App\Command;
 
 use App\Entity\HearthstoneClass;
 use App\Service\ApiHearthstone;
+use App\Utils\Stringifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
@@ -13,11 +14,13 @@ class UpdateClassesHearthstone extends Command
 {
     private $apiHearthstone;
     private $entityManager;
+    private $stringifier;
 
-    public function __construct(ApiHearthstone $apiHearthstone, EntityManagerInterface $entityManager)
+    public function __construct(ApiHearthstone $apiHearthstone, EntityManagerInterface $entityManager, Stringifier $stringifier)
     {
         $this->apiHearthstone = $apiHearthstone;
         $this->entityManager = $entityManager;
+        $this->stringifier = $stringifier;
         parent::__construct();
     }
 
@@ -37,13 +40,21 @@ class UpdateClassesHearthstone extends Command
             '',
         ]);
 
-        $classes = $this->apiHearthstone->getInfos('classes');
-        if(!empty($classes))
+        $classesFR = $this->apiHearthstone->getInfos('classes');
+        $classesEN = $this->apiHearthstone->getInfos('classes', 'enEN');
+        if(!empty($classesFR))
         {
             $hearthstoneClass = $this->entityManager->getRepository(HearthstoneClass::class);
-            foreach($classes as $classname)
+            foreach($classesFR as $k => $classNameFR)
             {
-                ($hearthstoneClass->addHearthstoneClass($classname))?$output->writeln("Class " . $classname . " added"):$output->writeln("Class " . $classname. " already exist");
+                if(empty($classNameFR))
+                {
+                    continue;
+                }
+                $datas = [];
+                $datas['name'] = $classNameFR;
+                $datas['code'] = $this->stringifier->slug($classesEN[$k]);
+                ($hearthstoneClass->addHearthstoneClass($datas))?$output->writeln("Class " . $classNameFR . " added"):$output->writeln("Class " . $classNameFR. " already exist");
             }
         }
         else{

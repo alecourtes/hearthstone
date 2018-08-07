@@ -5,7 +5,7 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\CardsRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\HearthstoneCardRepository")
  */
 class HearthstoneCard
 {
@@ -42,6 +42,26 @@ class HearthstoneCard
      * @ORM\JoinColumn(nullable=false)
      */
     private $hearthstoneSet;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $attack;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $health;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $media;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $mediaGold;
 
     public function getId()
     {
@@ -86,24 +106,72 @@ class HearthstoneCard
 
     public function getHearthstoneClass(): ?HearthstoneClass
     {
-        return $this->category;
+        return $this->hearthstoneClass;
     }
 
     public function setHearthstoneClass(?HearthstoneClass $hearthstoneClass): self
     {
-        $this->hearthstoneClass = $category;
+        $this->hearthstoneClass = $hearthstoneClass;
 
         return $this;
     }
 
     public function getHearthstoneSet(): ?HearthstoneSet
     {
-        return $this->hearthstoneExtension;
+        return $this->hearthstoneSet;
     }
 
-    public function setHearthstoneSet(?HearthstoneSet $hearthstoneExtension): self
+    public function setHearthstoneSet(?HearthstoneSet $hearthstoneSet): self
     {
-        $this->hearthstoneExtension = $hearthstoneExtension;
+        $this->hearthstoneSet = $hearthstoneSet;
+
+        return $this;
+    }
+
+    public function getAttack(): ?int
+    {
+        return $this->attack;
+    }
+
+    public function setAttack(?int $attack): self
+    {
+        $this->attack = $attack;
+
+        return $this;
+    }
+
+    public function getHealth(): ?int
+    {
+        return $this->health;
+    }
+
+    public function setHealth(?int $health): self
+    {
+        $this->health = $health;
+
+        return $this;
+    }
+
+    public function getMedia(): ?string
+    {
+        return $this->media;
+    }
+
+    public function setMedia(?string $media): self
+    {
+        $this->media = $media;
+
+        return $this;
+    }
+
+    public function getMediaGold(): ?string
+    {
+        return $this->mediaGold;
+    }
+
+    public function setMediaGold(?string $mediaGold): self
+    {
+        $this->mediaGold = $mediaGold;
 
         return $this;
     }
