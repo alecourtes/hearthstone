@@ -44,6 +44,12 @@ class HearthstoneCard
     private $hearthstoneSet;
 
     /**
+     * @ORM\ManyToOne(targetEntity="HearthstoneType", inversedBy="hearthstoneCards")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $hearthstoneType;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
     private $attack;
@@ -124,6 +130,18 @@ class HearthstoneCard
     public function setHearthstoneSet(?HearthstoneSet $hearthstoneSet): self
     {
         $this->hearthstoneSet = $hearthstoneSet;
+
+        return $this;
+    }
+
+    public function getHearthstoneType(): ?HearthstoneType
+    {
+        return $this->hearthstoneType;
+    }
+
+    public function setHearthstoneType(?HearthstoneType $hearthstoneType): self
+    {
+        $this->hearthstoneType = $hearthstoneType;
 
         return $this;
     }

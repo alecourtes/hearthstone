@@ -10,10 +10,10 @@ require('../css/app.scss');
 
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to require it.
-var $ = require('jquery');
+//var $ = require('jquery');
 // JS is equivalent to the normal "bootstrap" package
 // no need to set this to a variable, just require it
-require('bootstrap');
+//require('bootstrap');
 
 // or you can include specific pieces
 // require('bootstrap/js/dist/tooltip');

@@ -7,9 +7,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\HearthstoneSetRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\HearthstoneTypeRepository")
  */
-class HearthstoneSet
+class HearthstoneType
 {
     /**
      * @ORM\Id()
@@ -29,7 +29,7 @@ class HearthstoneSet
     private $name;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\HearthstoneCard", mappedBy="hearthstoneSet")
+     * @ORM\OneToMany(targetEntity="App\Entity\HearthstoneCard", mappedBy="hearthstoneType")
      */
     private $hearthstoneCards;
 

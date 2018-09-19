@@ -33,6 +33,7 @@ class HearthstoneCardRepository extends ServiceEntityRepository
                 $card->setDescription($cardDatas['description']);
                 $card->setHearthstoneClass($cardDatas['class']);
                 $card->setHearthstoneSet($cardDatas['set']);
+                $card->setHearthstoneType($cardDatas['type']);
                 $card->setAttack($cardDatas['attack']);
                 $card->setHealth($cardDatas['health']);
                 $card->setMedia($cardDatas['media']);
@@ -66,6 +67,7 @@ class HearthstoneCardRepository extends ServiceEntityRepository
                 $card->setDescription($cardDatas['text']);
                 $card->setHearthstoneClass($cardDatas['class']);
                 $card->setHearthstoneSet($cardDatas['set']);
+                $card->setHearthstoneType($cardDatas['type']);
                 $card->setAttack($cardDatas['attack']);
                 $card->setHealth($cardDatas['health']);
                 $card->setMedia($cardDatas['media']);

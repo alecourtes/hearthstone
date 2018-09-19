@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Entity\HearthstoneCard;
 use App\Entity\HearthstoneClass;
 use App\Entity\HearthstoneSet;
+use App\Entity\HearthstoneType;
 use App\Service\ApiHearthstone;
 use App\Utils\Stringifier;
 use Doctrine\ORM\EntityManagerInterface;
@@ -48,6 +49,7 @@ class UpdateCardsHearthstone extends Command
             $hearthstoneCard = $this->entityManager->getRepository(HearthstoneCard::class);
             $hearthstoneSet = $this->entityManager->getRepository(HearthstoneSet::class);
             $hearthstoneClass = $this->entityManager->getRepository(HearthstoneClass::class);
+            $hearthstoneType = $this->entityManager->getRepository(HearthstoneType::class);
 
             $i = 0;
             foreach($cards as $extension => $cardsExtension)
@@ -62,6 +64,7 @@ class UpdateCardsHearthstone extends Command
                     $datas['name'] = (isset($card['name']))?$card['name']:'';
                     $datas['text'] = (isset($card['text']))?$card['text']:'';
                     $datas['playerClass'] = (isset($card['playerClass']))?$card['playerClass']:'';
+                    $datas['type'] = (isset($card['type']))?$card['type']:'';
                     $datas['attack'] = (isset($card['attack']))?$card['attack']:null;
                     $datas['health'] = (isset($card['health']))?$card['health']:null;
                     $datas['media'] = (isset($card['img']))?$card['img']:null;
@@ -73,11 +76,12 @@ class UpdateCardsHearthstone extends Command
                         continue;
                     }
                     $datas['cardId'] = $card['cardId'];
-                    $datas['description'] = (isset($card['description']))?$card['description']:'';
+                    $datas['description'] = (isset($card['text']))?$card['text']:'';
                     $output->writeln('<info>Card N° '. $i .'</info>');
                     $output->writeln('<info>Id Card : '. $datas['cardId'] .'</info>');
                     $output->writeln('<info>Card name : '. $datas['name'] .'</info>');
                     $output->writeln('<info>Card playerClass : '. $datas['playerClass'] .'</info>');
+                    $output->writeln('<info>Card Type : '. $datas['type'] .'</info>');
                     $output->writeln('<info>Card extension : '. $extension .'</info>');
                     $output->writeln('<info>Card attack : '. $datas['attack'] .'</info>');
                     $output->writeln('<info>Card $health : '. $datas['health'] .'</info>');
@@ -89,6 +93,8 @@ class UpdateCardsHearthstone extends Command
                     $datas['set'] = $set;
                     $class = $hearthstoneClass->findOneBy(['code' => $this->stringifier->slug($datas['playerClass'])]);
                     $datas['class'] = $class;
+                    $type = $hearthstoneType->findOneBy(['code' => $this->stringifier->slug($datas['type'])]);
+                    $datas['type'] = $type;
                     if (!$set || !$class)
                     {
                         $output->writeln('<error> Extension or class not exist</error>');
