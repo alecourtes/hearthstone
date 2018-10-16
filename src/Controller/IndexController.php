@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\HearthstoneCard;
 use App\Entity\HearthstoneClass;
 use App\Entity\HearthstoneSet;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,11 +17,14 @@ class IndexController extends AbstractController
         $sets = $hearthstoneSetRepository->findAll();
         $hearthstoneClassRepository = $entityManager->getRepository(HearthstoneClass::class);
         $classes = $hearthstoneClassRepository->findAll();
+        $hearthstoneCardRepository = $entityManager->getRepository(HearthstoneCard::class);
+        $cards = $hearthstoneCardRepository->findAll();
         return $this->render(
             'index/index.html.twig',
             [
                 "sets" => $sets,
-                "classes" => $classes
+                "classes" => $classes,
+                "cards" => $cards
             ]
         );
 
