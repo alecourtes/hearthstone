@@ -1,13 +1,13 @@
 {% extends '@AdminLTE/layout/default-layout.html.twig' %}
-{% block page_title %}Liste des extensions{% endblock %}
-{% block page_subtitle %}Lise de toutes les extensions de Hearthstone{% endblock %}
+{% block page_title %}Dashboard Hearthstone{% endblock %}
+{% block page_subtitle %}Récapitulatif contenu hearthstone{% endblock %}
 {%  block logo_large %}
     <strong>HEARTHSTONE</strong>
 {% endblock %}
 {% block sidebar_nav %}
     <ul class="sidebar-menu tree" data-widget="tree">
         <li class="header">MAIN NAVIGATION</li>
-        <li><a href="/dashboard"><i class="fa  fa-sitemap"></i> <span>DASHBOARD</span></a></li>
+        <li><a href="#"><i class="fa  fa-sitemap"></i> <span>DASHBOARD</span></a></li>
         <li class="treeview menu-close">
             <a href="#">
                 <i class="fa fa-dashboard"></i> <span>EXTENSIONS</span>
@@ -37,28 +37,29 @@
         </ul>
 {% endblock %}
 {% block page_content %}
-    {% embed '@AdminLTE/Widgets/box-widget.html.twig' %}
-    {% block box_title %}{{ 'Liste des cartes'|trans }}{% endblock %}
-    {% block box_body %}
-        <table id="example" class="table table-striped table-bordered table-hover" style="width:100%">
-            <thead>
-            <tr role="row">
-                <th class="sorting">Nom</th>
-                <th>Description</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for card in cards %}
-                <tr>
-                    <td>{{ card.name }}</td>
-                    <td>{{ card.description }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
-    {% endblock %}
-    {% endembed %}
-
+    <div class="row">
+        <div class="col-md-6">
+            {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
+            'color' : 'aqua',
+            'icon'  : 'fas fa-comments',
+            } %}
+                {% block box_text %}Nombre de cartes{% endblock %}
+                {% block box_number %}5 432{% endblock %}
+                {% block progress_description %}Ensemble des cartes du jeu Hearthston{% endblock %}
+            {% endembed %}
+        </div>
+        <div class="col-md-6">
+            {% embed '@AdminLTE/Widgets/infobox-widget.html.twig'  with {
+            'color' : 'green',
+            'icon'  : 'fas fa-cog',
+            } %}
+                {% block box_text %}Nombre de cartes{% endblock %}
+                {% block box_number %}5 432{% endblock %}
+                {% block progress_description %}Ensemble des cartes du jeu Hearthston{% endblock %}
+            {% endembed %}
+        </div>
+        <div class="col-md-6"></div>
+    </div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

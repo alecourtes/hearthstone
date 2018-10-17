@@ -29,4 +29,19 @@ class IndexController extends AbstractController
         );
 
     }
+
+    public function dashboard(EntityManagerInterface $entityManager)
+    {
+        $hearthstoneSetRepository = $entityManager->getRepository(HearthstoneSet::class);
+        $sets = $hearthstoneSetRepository->findAll();
+        $hearthstoneClassRepository = $entityManager->getRepository(HearthstoneClass::class);
+        $classes = $hearthstoneClassRepository->findAll();
+        return $this->render(
+            'index/dashboard.html.twig',
+            [
+                "sets" => $sets,
+                "classes" => $classes,
+            ]
+        );
+    }
 }

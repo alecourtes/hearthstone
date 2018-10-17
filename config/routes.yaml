@@ -1,3 +1,6 @@
 index:
     path: /
     controller: App\Controller\IndexController::index
+index_dashboard:
+    path: /dashboard
+    controller: App\Controller\IndexController::dashboard
